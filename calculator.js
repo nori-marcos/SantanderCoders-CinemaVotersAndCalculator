@@ -69,9 +69,7 @@ const calculator = (function () {
 })();
 
 calculator.enter(3);
-calculator.enter(3);
+calculator.enter("+");
 calculator.enter(5);
-console.log(calculator.enter(3));
-console.log(calculator._calculation);
 console.log(calculator.equal());
 console.log(calculator.reset());
