@@ -1,75 +1,61 @@
 const calculator = (function () {
-  let _calculation = {
-    firstNumber: undefined,
-    operator: undefined,
-    secondNumber: undefined,
+  let _arrayOfEntries = [];
+  let doneOperations = [];
+
+  const addition = (firstNumber, secondNumber) => {
+    return firstNumber + secondNumber;
+  };
+  const subtraction = (firstNumber, secondNumber) => {
+    return firstNumber - secondNumber;
+  };
+  const multiplication = (firstNumber, secondNumber) => {
+    return firstNumber * secondNumber;
+  };
+  const remainder = (firstNumber, secondNumber) => {
+    return firstNumber % secondNumber;
+  };
+
+  const operators = {
+    "+": addition,
+    "-": subtraction,
+    "*": multiplication,
+    "%": remainder,
   };
 
   const enter = (information) => {
-    if (
-      _calculation.firstNumber === undefined &&
-      _calculation.operator === undefined &&
-      _calculation.secondNumber === undefined
-    ) {
-      return (_calculation.firstNumber = information);
-    } else if (
-      _calculation.firstNumber !== undefined &&
-      _calculation.operator === undefined &&
-      _calculation.secondNumber === undefined
-    ) {
-      return (_calculation.operator = information);
-    } else if (
-      _calculation.firstNumber !== undefined &&
-      _calculation.operator !== undefined &&
-      _calculation.secondNumber === undefined
-    ) {
-      return (_calculation.secondNumber = information);
-    } else {
-      return "call equal or reset";
-    }
-  };
-
-  const reset = () => {
-    return (_calculation = {
-      firstNumber: undefined,
-      operator: undefined,
-      secondNumber: undefined,
-    });
+    return _arrayOfEntries.push(information);
   };
 
   const equal = () => {
-    if (
-      _calculation.firstNumber === undefined ||
-      _calculation.operator === undefined ||
-      _calculation.secondNumber === undefined
-    ) {
-      return "reset and enter again the information";
+    let [firstNumber, operator, secondNumber] = _arrayOfEntries;
+
+    if (typeof firstNumber !== "number" || typeof secondNumber !== "number") {
+      return "Reset and enter valid entries as follows: number, operator and number";
     }
 
-    if (_calculation.operator === "+") {
-      return _calculation.firstNumber + _calculation.secondNumber;
-    } else if (_calculation.operator === "-") {
-      return _calculation.firstNumber - _calculation.secondNumber;
-    } else if (_calculation.operator === "*") {
-      return _calculation.firstNumber * _calculation.secondNumber;
-    } else if (_calculation.operator === "/") {
-      return _calculation.firstNumber / _calculation.secondNumber;
-    } else if (_calculation.operator === "%") {
-      return _calculation.firstNumber % _calculation.secondNumber;
-    } else {
-      return "you have put invalid operator, reset and enter again information";
+    if (operator in operators) {
+      let result = operators[operator](firstNumber, secondNumber);
+      doneOperations.push([
+        `${firstNumber} ${operator} ${secondNumber} = ${result}`,
+      ]);
+      return result;
     }
+
+    return "Reset and enter valid entries as follows: number, operator and number";
+  };
+
+  const reset = () => {
+    return _arrayOfEntries.splice(0, _arrayOfEntries.length);
+  };
+
+  const getTheDoneOperations = () => {
+    return doneOperations;
   };
 
   return {
     enter,
     reset,
     equal,
+    getTheDoneOperations,
   };
 })();
-
-calculator.enter(3);
-calculator.enter("+");
-calculator.enter(5);
-console.log(calculator.equal());
-console.log(calculator.reset());
