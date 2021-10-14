@@ -11,15 +11,15 @@ const calculator = (function () {
   const multiplication = (firstNumber, secondNumber) => {
     return firstNumber * secondNumber;
   };
-  const remainder = (firstNumber, secondNumber) => {
-    return firstNumber % secondNumber;
+  const division = (firstNumber, secondNumber) => {
+    return firstNumber / secondNumber;
   };
 
   const operators = {
     "+": addition,
     "-": subtraction,
     "*": multiplication,
-    "%": remainder,
+    "/": division,
   };
 
   const enter = (information) => {
